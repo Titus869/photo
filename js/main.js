@@ -31,6 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchCategoryBtn = document.getElementById('search-category-btn');
   const resetCategorySearchBtn = document.getElementById('reset-category-btn');
 
+  const searchImageInput = document.getElementById('search-image-input');
+  const searchImageBtn = document.getElementById('search-image-btn');
+  const resetImageSearchBtn = document.getElementById('reset-image-btn');
+
+  let currentActiveCategory = '';
 
   // 分类及图片数据结构
   // categories = { "分类名": [ { url, filename, comment }, ... ] }
@@ -42,9 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 新增的元素
   const userDisplayBtn = document.getElementById('user-display-btn');
   const logoutBtnDropdown = document.getElementById('logout-btn-dropdown');
-  const friendsListBtn = document.getElementById('friends-list-btn');
-  const userMenuContainer = document.querySelector('.user-menu-container');
-  const dropdownMenu = document.querySelector('.dropdown-menu');
+
 
   // 显示当前用户名
   userDisplayBtn.textContent = username;
@@ -71,14 +74,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // 好友列表按钮事件 (这里只是一个占位符)
-  friendsListBtn.addEventListener('click', (e) => {
-    e.preventDefault(); // 阻止默认的链接跳转
-    alert('好友列表功能待开发！');
-    // 你可以在这里添加跳转到好友列表页面的逻辑
-  });
+  // friendsListBtn.addEventListener('click', (e) => {
+  //   e.preventDefault(); // 阻止默认的链接跳转
+  //   alert('好友列表功能待开发！');
+  // 你可以在这里添加跳转到好友列表页面的逻辑
+  // });
 
   // 更新分类按钮和下拉菜单
-// 更新分类按钮和下拉菜单
+  // 更新分类按钮和下拉菜单
   function refreshCategories(searchTerm = '') { // <-- 修改这里，添加 searchTerm 参数
     fetch('http://127.0.0.1:5000/categories', {
       credentials: 'include'
@@ -176,56 +179,86 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 展示某分类的图片
   // 异步获取并展示某分类的图片
-async function showImages(category) {
-  if (!category) return;
-  imageGallery.innerHTML = '';
+// 修改 showImages 函数以支持图片搜索
+  async function showImages(category, imageSearchTerm = '') {
+    if (!category) return;
 
-  try {
-    const res = await fetch(`http://127.0.0.1:5000/get_images?category=${encodeURIComponent(category)}`, {
-      credentials: 'include'
-    });
-    const data = await res.json();
-    if (!data.success) {
-      alert(data.message || '获取图片失败');
-      return;
-    }
+    currentActiveCategory = category; // 更新当前激活分类
 
-    // 把从后端拿到的图片列表更新到本地 categories
-    categories[category] = data.images || [];
+    imageGallery.innerHTML = ''; // 清空图片展示区域
 
-    // 渲染图片
-    categories[category].forEach((imgObj, index) => {
-      const div = document.createElement('div');
-      div.className = 'image-item';
-      div.style.cursor = 'pointer';
-      div.style.display = 'inline-block';
-      div.style.margin = '10px';
-      div.style.textAlign = 'center';
-
-      const img = document.createElement('img');
-      img.src = imgObj.url;
-      img.alt = imgObj.filename;
-      img.style.width = '150px';
-      img.style.height = '150px';
-      img.style.objectFit = 'cover';
-      div.appendChild(img);
-
-      const p = document.createElement('p');
-      p.textContent = imgObj.filename;
-      p.title = imgObj.filename; // 新增：为p标签添加title属性，显示完整文件名
-      div.appendChild(p);
-
-      div.addEventListener('click', () => {
-        openEditPanel(category, index);
+    try {
+      const res = await fetch(`http://127.0.0.1:5000/get_images?category=${encodeURIComponent(category)}`, {
+        credentials: 'include'
       });
+      const data = await res.json();
+      if (!data.success) {
+        alert(data.message || '获取图片失败');
+        return;
+      }
 
-      imageGallery.appendChild(div);
-    });
-  } catch (err) {
-    alert('网络错误，请稍后再试');
+      // 把从后端拿到的图片列表更新到本地 categories
+      categories[category] = data.images || [];
+
+      let imagesToDisplay = categories[category]; // 默认显示所有图片
+
+      // 如果有图片搜索词，则进行筛选 (根据 filename 或 comment)
+      if (imageSearchTerm) {
+        const lowerCaseImageSearchTerm = imageSearchTerm.toLowerCase();
+        imagesToDisplay = imagesToDisplay.filter(imgObj =>
+          imgObj.filename.toLowerCase().includes(lowerCaseImageSearchTerm) ||
+          (imgObj.comment && imgObj.comment.toLowerCase().includes(lowerCaseImageSearchTerm))
+        );
+      }
+
+      // 渲染图片
+      if (imagesToDisplay.length === 0) {
+          imageGallery.innerHTML = '<p style="text-align: center; color: #555;">暂无图片或未找到匹配图片。</p>';
+      } else {
+          imagesToDisplay.forEach((imgObj) => { // 移除 index 参数，因为我们通过 filepath 查找
+            // 创建一个新的 div 作为每个图片项的容器
+            const imageItemWrapper = document.createElement('div');
+            imageItemWrapper.className = 'image-item-wrapper'; // 新增类名
+
+            const img = document.createElement('img');
+            img.src = imgObj.url;
+            img.alt = imgObj.filename;
+            // 样式已经在 main.css 中定义了，这里不需要内联 style
+            // img.style.width = '150px';
+            // img.style.height = '150px';
+            // img.style.objectFit = 'cover';
+            imageItemWrapper.appendChild(img); // 将图片添加到 wrapper
+
+            const p = document.createElement('p');
+            p.textContent = imgObj.filename; // 仅设置文件名
+            imageItemWrapper.appendChild(p); // 将文件名段落添加到 wrapper
+
+            // 创建 tooltip 文本元素
+            const tooltipSpan = document.createElement('span');
+            tooltipSpan.className = 'tooltiptext';
+            tooltipSpan.textContent = imgObj.filename; // tooltip 中显示完整文件名
+            imageItemWrapper.appendChild(tooltipSpan); // 将 tooltipSpan 直接添加到 wrapper
+
+            imageItemWrapper.addEventListener('click', () => {
+              // 找到 imgObj 在原始 categories[category] 数组中的索引
+              const originalIndex = categories[category].findIndex(item => item.filepath === imgObj.filepath);
+
+              if (originalIndex !== -1) {
+                  openEditPanel(category, originalIndex);
+              } else {
+                  console.error('Error: Could not find the original index for image:', imgObj.filepath);
+              }
+            });
+
+            imageGallery.appendChild(imageItemWrapper); // 将新的 wrapper 添加到画廊
+          });
+      }
+
+    } catch (err) {
+      console.error('Failed to load images:', err); // 使用 console.error 打印错误
+      alert('网络错误，请稍后再试');
+    }
   }
-}
-
 
   // 打开编辑界面
   function openEditPanel(category, index) {
@@ -239,74 +272,74 @@ async function showImages(category) {
     editPanel.style.display = 'block';
   }
 
-// 保存编辑修改
-saveChangesBtn.addEventListener('click', () => {
-  if (!currentEdit) return;
+  // 保存编辑修改
+  saveChangesBtn.addEventListener('click', () => {
+    if (!currentEdit) return;
 
-  const { category, index } = currentEdit;
-  const imgObj = categories[category][index];
-  const newFilename = editFilenameInput.value.trim() || imgObj.filename;
-  const newComment = editCommentInput.value.trim();
+    const { category, index } = currentEdit;
+    const imgObj = categories[category][index];
+    const newFilename = editFilenameInput.value.trim() || imgObj.filename;
+    const newComment = editCommentInput.value.trim();
 
-  // 调用后端接口更新
-  fetch('http://127.0.0.1:5000/update_image', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify({
-      filepath: imgObj.url.replace('/uploads/', ''), // 只要相对路径
-      filename: newFilename,
-      comment: newComment
-    })
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        alert('修改成功');
-        // 更新前端缓存
-        categories[category][index].filename = newFilename;
-        categories[category][index].comment = newComment;
-        // showImages(category);
-        closeEditPanel();
-      } else {
-        alert(data.message || '修改失败');
-      }
-    })
-    .catch(() => alert('网络错误，请稍后再试'));
-});
-
-// 删除图片
-deleteImageBtn.addEventListener('click', () => {
-  if (!currentEdit) return;
-
-  const { category, index } = currentEdit;
-  const imgObj = categories[category][index];
-
-  if (confirm('确定删除这张图片吗？')) {
-    // 调用后端接口删除
-    fetch('http://127.0.0.1:5000/delete_image', {
+    // 调用后端接口更新
+    fetch('http://127.0.0.1:5000/update_image', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({
-        filepath: imgObj.url.replace('/uploads/', '') // 只要相对路径
+        filepath: imgObj.url.replace('/uploads/', ''), // 只要相对路径
+        filename: newFilename,
+        comment: newComment
       })
     })
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          alert('图片已删除');
+          alert('修改成功');
           // 更新前端缓存
-          categories[category].splice(index, 1);
+          categories[category][index].filename = newFilename;
+          categories[category][index].comment = newComment;
           // showImages(category);
           closeEditPanel();
         } else {
-          alert(data.message || '删除失败');
+          alert(data.message || '修改失败');
         }
       })
       .catch(() => alert('网络错误，请稍后再试'));
-  }
-});
+  });
+
+  // 删除图片
+  deleteImageBtn.addEventListener('click', () => {
+    if (!currentEdit) return;
+
+    const { category, index } = currentEdit;
+    const imgObj = categories[category][index];
+
+    if (confirm('确定删除这张图片吗？')) {
+      // 调用后端接口删除
+      fetch('http://127.0.0.1:5000/delete_image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          filepath: imgObj.url.replace('/uploads/', '') // 只要相对路径
+        })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            alert('图片已删除');
+            // 更新前端缓存
+            categories[category].splice(index, 1);
+            // showImages(category);
+            closeEditPanel();
+          } else {
+            alert(data.message || '删除失败');
+          }
+        })
+        .catch(() => alert('网络错误，请稍后再试'));
+    }
+  });
 
 
   // 关闭编辑界面
@@ -372,6 +405,7 @@ deleteImageBtn.addEventListener('click', () => {
       .then(res => res.json())
       .then(data => {
         if (data.success) {
+          closeEditPanel();
           alert('图片上传成功');
           // 上传成功后重新从数据库获取该分类的图片列表
           // showImages(selectedCategory);
@@ -393,6 +427,28 @@ deleteImageBtn.addEventListener('click', () => {
   resetCategorySearchBtn.addEventListener('click', () => {
     searchCategoryInput.value = ''; // 清空搜索输入框
     refreshCategories(); // 不传入搜索词，显示所有分类
+  });
+
+  // 图片搜索按钮事件
+  searchImageBtn.addEventListener('click', () => {
+    const searchTerm = searchImageInput.value.trim();
+    if (currentActiveCategory) { // 只有当有分类被选中时才进行图片搜索
+      showImages(currentActiveCategory, searchTerm);
+      closeEditPanel();
+    } else {
+      alert('请先选择一个分类，再进行图片搜索。');
+    }
+  });
+
+  // 重置图片搜索按钮事件
+  resetImageSearchBtn.addEventListener('click', () => {
+    searchImageInput.value = ''; // 清空搜索输入框
+    if (currentActiveCategory) {
+      showImages(currentActiveCategory); // 不传入搜索词，显示当前分类下的所有图片
+      closeEditPanel();
+    } else {
+      alert('请先选择一个分类。');
+    }
   });
 
   // 初始化

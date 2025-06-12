@@ -69,7 +69,8 @@ h2 {
 #image-gallery {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 15px; /* 图片项之间的间距 */
+    justify-content: flex-start; /* 从左侧开始排列 */
 }
 
 #image-gallery img {
@@ -178,4 +179,139 @@ h2 {
 /* 当 user-menu-container 悬停时，显示下拉菜单 */
 .user-menu-container:hover .dropdown-menu {
   display: block;
+}
+
+.gallery-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px; /* 与下方图片画廊的间距 */
+}
+
+.gallery-header h2 {
+    margin: 0;
+    padding-right: 20px;
+}
+
+.image-search-controls {
+    display: flex;
+    gap: 10px; /* 搜索框和按钮之间的间距 */
+    align-items: center;
+}
+
+.image-search-controls input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em; /* 与其他输入框保持一致 */
+    flex-grow: 1;
+    min-width: 150px;
+}
+
+/* .image-search-controls button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #6065D9;
+    color: white;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background 0.3s ease;
+} */
+
+.image-search-controls button:hover {
+    background-color: #4a4fc2;
+}
+
+/* 暂无图片提示文本的样式 */
+#image-gallery p {
+    text-align: center;
+    color: #555;
+    font-size: 1.1em;
+    margin-top: 30px;
+    width: 100%; /* 确保文本居中在整个画廊区域 */
+}
+
+
+/* 新增的图片项包装器样式 */
+.image-item-wrapper {
+    position: relative; /* 相对定位，用于 tooltip 的绝对定位 */
+    display: flex; /* 使用 flexbox 布局图片和文本 */
+    flex-direction: column; /* 垂直排列图片和文本 */
+    align-items: center; /* 水平居中图片和文本 */
+    margin: 0; /* 清除默认 margin，由 #image-gallery 的 gap 控制 */
+    text-align: center; /* 文本居中 */
+    cursor: pointer;
+    width: 150px; /* 固定每个图片项的宽度 */
+    box-sizing: border-box; /* 包含 padding 和 border 在宽度内 */
+    padding: 5px; /* 增加一点内边距 */
+    border: 1px solid #eee; /* 轻微边框 */
+    border-radius: 8px; /* 圆角 */
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08); /* 增加轻微阴影 */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.image-item-wrapper:hover {
+    transform: translateY(-3px); /* 悬停时稍微上浮 */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15); /* 悬停时阴影更明显 */
+}
+
+.image-item-wrapper img {
+    width: 140px; /* 略小于 wrapper 宽度，留出内边距 */
+    height: 140px; /* 保持正方形 */
+    object-fit: cover;
+    border-radius: 4px; /* 图片自身也带圆角 */
+    /* 移除之前可能存在的内联 style */
+}
+
+.image-item-wrapper p {
+    font-size: 0.9em;
+    color: #333;
+    margin-top: 8px; /* 图片和文本之间的间距 */
+    margin-bottom: 0; /* 移除默认底边距 */
+    max-width: 100%; /* 确保文本宽度不超过容器 */
+    white-space: nowrap; /* 文本不换行 */
+    overflow: hidden; /* 隐藏超出容器的文本 */
+    text-overflow: ellipsis; /* 显示省略号 */
+    padding: 0 2px; /* 文本左右留一点内边距 */
+}
+
+/* Tooltip 样式 */
+.tooltiptext {
+    visibility: hidden; /* 默认隐藏 */
+    width: auto; /* 宽度自适应内容 */
+    min-width: 100px; /* 最小宽度 */
+    background-color: rgba(0, 0, 0, 0.85); /* 半透明黑色背景，更深一点 */
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 6px 10px; /* 调整内边距 */
+    position: absolute;
+    z-index: 100; /* 确保在最顶层 */
+    bottom: calc(100% + 8px); /* 放置在 wrapper 上方，并留有间距 */
+    left: 50%;
+    transform: translateX(-50%); /* 水平居中 */
+    white-space: nowrap; /* 确保 tooltip 文本不换行 */
+    opacity: 0;
+    transition: opacity 0.3s ease, bottom 0.3s ease; /* 添加 bottom 的过渡，使其有上浮效果 */
+    pointer-events: none; /* 允许点击穿透 tooltip */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3); /* 增加 tooltip 阴影 */
+}
+
+/* 当鼠标悬停在 .image-item-wrapper 上时显示 tooltip */
+.image-item-wrapper:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+    bottom: calc(100% + 15px); /* 悬停时 tooltip 稍微上浮 */
+}
+
+/* 暂无图片提示文本的样式 */
+#image-gallery p.no-images-message { /* 针对无图片时的提示文本 */
+    text-align: center;
+    color: #555;
+    font-size: 1.1em;
+    margin-top: 30px;
+    width: 100%;
 }

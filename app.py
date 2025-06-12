@@ -239,11 +239,11 @@ def get_images():
     images = []
     for row in rows:
         images.append({
-            'url': f'/uploads/{row[0]}',  # 拼接成访问路径
+            'url': f'/uploads/{row[0]}',  # row[0] 是数据库中的 filepath (纯文件名)
             'filename': row[1],
-            'comment': row[2]
+            'comment': row[2],
+            'filepath': row[0]  # <-- 新增这一行，将纯文件名作为 filepath 字段返回
         })
-
     return jsonify({'success': True, 'images': images})
 
 @app.route('/update_image', methods=['POST'])
