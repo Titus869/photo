@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>登录界面</title>
+
+<!-- 引入谷歌字体（或本地引用也可） -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"> -->
+
+<!-- 引入编译好的 CSS 文件 -->
+<link rel="stylesheet" href="css/login.css">
+
+</head>
+<body>
+
+<div class="svg-top">
+  <!-- 顶部 SVG 代码 -->
+  <svg xmlns="http://www.w3.org/2000/svg" height="1337" width="1337" version="1.1">
+    <defs>
+      <path id="path-1" fill-rule="evenodd" d="M1337,668.5 C1337,1037.455193874239 1037.455193874239,1337 668.5,1337 C523.6725684305388,1337 337,1236 370.5,1094 C434.03835568300906,824.6732385973953 0,892.6277623047779 0,668.5 C0,299.5448061257611 299.5448061257609,0 668.5,0 C1037.455193874239,0 1337,299.544806125761 1337,668.5Z"/>
+      <linearGradient id="linearGradient-2" x1="0.79" y1="0.62" x2="0.21" y2="0.86">
+        <stop offset="0" stop-color="rgb(88,62,213)" />
+        <stop offset="1" stop-color="rgb(23,215,250)" />
+      </linearGradient>
+    </defs>
+    <g>
+      <use xlink:href="#path-1" fill="url(#linearGradient-2)"/>
+    </g>
+  </svg>
+</div>
+
+<div class="svg-bottom">
+  <!-- 底部 SVG 代码 -->
+  <svg xmlns="http://www.w3.org/2000/svg" height="896" width="967.8852157128662" version="1.1">
+    <defs>
+      <path id="path-2" fill-rule="evenodd" d="M896,448 C1142.6325445712241,465.5747656464056 695.2579309733121,896 448,896 C200.74206902668806,896 0,695.2579309733121 0,448 C0,200.74206902668806 200.742069026688,0 448,0 C695.2579309733121,0 475,418 896,448Z"/>
+      <linearGradient id="linearGradient-3" x1="0.5" y1="0" x2="0.5" y2="1">
+        <stop offset="0" stop-color="rgb(40,175,240)" />
+        <stop offset="1" stop-color="rgb(18,15,196)" />
+      </linearGradient>
+    </defs>
+    <g>
+      <use xlink:href="#path-2" fill="url(#linearGradient-3)"/>
+    </g>
+  </svg>
+</div>
+
+<section class="container" id="loginPage">
+  <section class="wrapper">
+    <header>
+      <!-- <div class="logo"><span>Logo</span></div> -->
+      <h1>Welcome back!</h1>
+      <p>User Login</p>
+    </header>
+    <section class="main-content">
+      <form id="loginForm">
+        <input type="text" id="username" placeholder="Username">
+        <div class="line"></div>
+        <input type="password" id="password" placeholder="Password">
+        <div id="passwordError" style="display: none; color: red; font-size: 14px; margin-top: 5px;"></div>
+        <button type="submit">Login</button>
+      </form>
+    </section>
+    <footer>
+      <p><a href="#">Forgot Password?</a></p>
+      <p><a href="register.html">Register</a></p>
+    </footer>
+  </section>
+</section>
+
+<script src="js/login.js"></script>
+
+</body>
+</html>
