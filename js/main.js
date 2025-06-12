@@ -186,11 +186,13 @@ document.addEventListener('DOMContentLoaded', () => {
     currentActiveCategory = category; // 更新当前激活分类
 
     imageGallery.innerHTML = ''; // 清空图片展示区域
+    closeEditPanel();
 
     try {
       const res = await fetch(`http://127.0.0.1:5000/get_images?category=${encodeURIComponent(category)}`, {
         credentials: 'include'
       });
+      
       const data = await res.json();
       if (!data.success) {
         alert(data.message || '获取图片失败');
@@ -249,6 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   console.error('Error: Could not find the original index for image:', imgObj.filepath);
               }
             });
+            
 
             imageGallery.appendChild(imageItemWrapper); // 将新的 wrapper 添加到画廊
           });

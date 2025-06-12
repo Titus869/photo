@@ -22,70 +22,59 @@
     </div>
 
     <!-- 分类管理 -->
-    <section class="category-management">
+<section class="category-management">
       <div class="category-header"
         style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
         <h2 style="margin: 0;">分类管理</h2>
-        <div style="display: flex; align-items: center; gap: 6px;">
-          <input type="text" id="search-category-input" placeholder="搜索分类" style="padding: 4px 8px; font-size: 14px;" />
+        <div class="category-search-controls"> <input type="text" id="search-category-input" placeholder="搜索分类" />
           <button id="search-category-btn">搜索</button>
           <button id="reset-category-btn">重置</button>
         </div>
       </div>
-
       <div class="categories-list">
-        <!-- 动态插入分类按钮 -->
-      </div>
-
+        </div>
       <input type="text" id="new-category-input" placeholder="输入新分类名" />
       <button id="add-category-btn">新增分类</button>
-
       <div class="delete-category">
         <select id="deleteCategorySelect">
           <option value="" disabled selected>选择要删除的分类</option>
-          <!-- 分类选项动态生成 -->
-        </select>
+          </select>
         <button id="deleteCategoryBtn">删除分类</button>
       </div>
     </section>
 
-
-
-
-    <!-- 图片上传 -->
     <section class="upload-section">
       <h2>上传图片</h2>
 
       <select id="category-select">
         <option value="" disabled selected>选择分类</option>
-        <!-- 动态插入分类选项 -->
-      </select>
+        </select>
       <input type="file" id="image-upload" accept="image/*" />
       <button id="upload-btn" type="button">上传图片</button>
     </section>
 
-    <!-- 图片展示 -->
     <section class="gallery">
       <div class="gallery-header"
         style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
         <h2 style="margin: 0;">图片展示</h2>
-        <div class="image-search-controls" style="display: flex; align-items: center; gap: 6px;">
-          <input type="text" id="search-image-input" placeholder="搜索图片" style="padding: 4px 8px; font-size: 14px;" />
+        <div class="image-search-controls">
+          <input type="text" id="search-image-input" placeholder="搜索图片" />
           <button id="search-image-btn">搜索</button>
           <button id="reset-image-btn">重置</button>
         </div>
       </div>
       <div id="image-gallery">
-        <!-- 动态显示图片 -->
-      </div>
+        </div>
       <div id="edit-panel" style="display: none;">
         <img id="edit-image" src="" alt="预览图片" />
         <div class="edit-options">
           <label>文件名：<input type="text" id="edit-filename" /></label>
-          <label>注释：<textarea id="edit-comment"></textarea></label>
-          <button id="save-changes-btn">保存更改</button>
-          <button id="delete-image-btn">删除图片</button>
-          <button id="close-editor-btn">关闭</button>
+          <label>备注：<input type="text" id="edit-comment" /></label>
+          <div class="edit-actions">
+            <button id="save-changes-btn">保存更改</button>
+            <button id="delete-image-btn">删除图片</button>
+            <button id="close-editor-btn">关闭</button>
+          </div>
         </div>
       </div>
     </section>

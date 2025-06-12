@@ -6,6 +6,21 @@ body {
     color: #333;
 }
 
+/* body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/fonts/2.png'); 替换为你的图片路径 */
+    /* /* background-size: cover;
+    background-repeat: no-repeat; */
+    /* opacity: 0.5;  */
+    /* 设置背景图片的透明度为 50% */
+    /* z-index: -1;  */
+/* } */
+
 .container {
     max-width: 900px;
     margin: 0 auto;
@@ -314,4 +329,54 @@ h2 {
     font-size: 1.1em;
     margin-top: 30px;
     width: 100%;
+}
+
+.image-search-controls input[type="text"],
+.category-search-controls input[type="text"] {
+    padding: 8px 12px; /* 增加内边距 */
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px; /* 轻微圆角 */
+    outline: none; /* 移除聚焦时的外边框 */
+    transition: border-color 0.2s ease-in-out; /* 添加过渡效果 */
+}
+
+.image-search-controls input[type="text"]:focus,
+.category-search-controls input[type="text"]:focus {
+    border-color: #6065D9; /* 聚焦时边框颜色变化 */
+}
+
+/* 搜索和重置按钮的通用样式 */
+.image-search-controls button,
+.category-search-controls button {
+    padding: 8px 15px; /* 增加内边距 */
+    font-size: 14px;
+    background: #6065D9; /* 使用你的主题色 */
+    color: white;
+    border: none;
+    border-radius: 5px; /* 轻微圆角 */
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out; /* 添加过渡效果 */
+}
+
+.image-search-controls button:hover,
+.category-search-controls button:hover {
+    background-color: #4a4fb0; /* 悬停时颜色变深 */
+}
+
+/* 确保搜索控件 div 的间距一致 */
+.image-search-controls,
+.category-search-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* 搜索框和按钮之间的间距 */
+}
+
+/* 可以根据需要调整整体布局 */
+.gallery-header {
+    margin-bottom: 20px; /* 确保标题和搜索控件与图片画廊有适当间距 */
+}
+
+.category-header {
+    margin-bottom: 20px; /* 确保标题和搜索控件与分类列表有适当间距 */
 }
