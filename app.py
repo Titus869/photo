@@ -1,7 +1,8 @@
+import os
+import uuid
+import sqlite3
 from flask import Flask, request, jsonify, session, send_from_directory
 from flask_cors import CORS
-import sqlite3
-import os
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -9,6 +10,9 @@ app.secret_key = 'your_secret_key_here'  # 必须设置，用于 session 加密
 CORS(app, supports_credentials=True)  # 支持跨域携带 cookie
 
 DB_NAME = 'mydata.db'
+
+UPLOAD_FOLDER = 'uploads' # 基础上传目录
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def init_db():
     with sqlite3.connect(DB_NAME) as conn:
@@ -172,52 +176,56 @@ def upload_image():
     if 'user_id' not in session:
         return jsonify({'success': False, 'message': '未登录'})
 
-    if 'image' not in request.files:
-        return jsonify({'success': False, 'message': '没有图片文件'})
-
-    file = request.files['image']
+    user_id = session['user_id']
+    username = session['username'] # 获取当前登录的用户名
     category = request.form.get('category')
-    username = session.get('username')
+    image_file = request.files.get('image')
 
-    if file.filename == '':
-        return jsonify({'success': False, 'message': '文件名为空'})
-    if not category:
-        return jsonify({'success': False, 'message': '分类未指定'})
-    if not username:
-        return jsonify({'success': False, 'message': '用户信息缺失'})
+    if not category or not image_file:
+        return jsonify({'success': False, 'message': '参数缺失'})
 
-    original_filename = secure_filename(file.filename)
-    name_without_ext, file_extension = os.path.splitext(original_filename)
+    if image_file:
+        # 原始文件名
+        original_filename = secure_filename(image_file.filename)
+        # 获取文件扩展名
+        file_ext = os.path.splitext(original_filename)[1]
+        # 使用 UUID 生成唯一文件名，防止重复
+        unique_filename = str(uuid.uuid4()) + file_ext
 
-    # 检查并生成唯一文件名
-    counter = 0
-    new_filename = original_filename
-    while True:
+        # 1. 构建用户和分类的子目录路径
+        # secure_filename 同样应用于 category，以防目录名包含非法字符
+        user_dir = secure_filename(username)
+        category_dir = secure_filename(category)
+        
+        # 完整的上传目录路径：uploads/username/categoryname/
+        target_upload_dir = os.path.join(app.config['UPLOAD_FOLDER'], user_dir, category_dir)
+
+        # 2. 检查并创建目录
+        if not os.path.exists(target_upload_dir):
+            try:
+                os.makedirs(target_upload_dir) # 递归创建目录
+            except OSError as e:
+                return jsonify({'success': False, 'message': f'创建目录失败: {e}'})
+
+        # 3. 构造完整的文件保存路径
+        full_filepath_on_disk = os.path.join(target_upload_dir, unique_filename)
+        
+        # 4. 保存文件
+        image_file.save(full_filepath_on_disk)
+
+        # 5. 修改数据库中 filepath 的存储方式
+        # 存储相对路径，方便后续构建 URL： username/categoryname/unique_filename.ext
+        # 这个 'filepath_for_db' 将被用于 `get_images` 函数中构建完整的 URL
+        filepath_for_db = os.path.join(user_dir, category_dir, unique_filename)
+
         with sqlite3.connect(DB_NAME) as conn:
             c = conn.cursor()
-            # 检查数据库中是否存在同名文件（对于当前用户和分类）
-            c.execute('SELECT COUNT(*) FROM images WHERE user=? AND category=? AND filename=?',
-                      (username, category, new_filename))
-            count = c.fetchone()[0]
-
-            if count == 0:
-                # 如果文件名不存在，则找到一个唯一的文件名
-                break
-            else:
-                # 如果文件名已存在，尝试下一个带序号的名称
-                counter += 1
-                new_filename = f"{name_without_ext}({counter}){file_extension}"
-
-    filepath = os.path.join(app.config['UPLOAD_FOLDER'], new_filename)
-    file.save(filepath)
-
-    with sqlite3.connect(DB_NAME) as conn:
-        c = conn.cursor()
-        c.execute('INSERT INTO images (user, category, filename, filepath) VALUES (?, ?, ?, ?)',
-                  (username, category, new_filename, new_filename)) # 注意这里 filepath 存储的是仅文件名
-        conn.commit()
-
-    return jsonify({'success': True, 'message': '图片上传成功'})
+            # 注意：这里的 filepath 存储的是相对路径 (username/categoryname/unique_filename.ext)
+            c.execute('INSERT INTO images (user, category, filename, filepath, comment) VALUES (?, ?, ?, ?, ?)',
+                      (username, category, original_filename, filepath_for_db, ''))
+            conn.commit()
+        return jsonify({'success': True, 'message': '图片上传成功'})
+    return jsonify({'success': False, 'message': '文件类型不允许'})
 
 
 @app.route('/get_images')
@@ -225,24 +233,30 @@ def get_images():
     if 'user_id' not in session:
         return jsonify({'success': False, 'message': '未登录'})
 
-    user = session.get('username') # Get username from session
+    user_id = session['user_id']
+    username = session['username']
     category = request.args.get('category')
+
     if not category:
         return jsonify({'success': False, 'message': '未指定分类'})
 
     with sqlite3.connect(DB_NAME) as conn:
         c = conn.cursor()
-        # Query images for the specific category AND user
-        c.execute('SELECT filepath, filename, comment FROM images WHERE category=? AND user=?', (category, user))
+        # 确保只获取当前用户和指定分类的图片
+        c.execute('SELECT filepath, filename, comment FROM images WHERE category=? AND user=?', (category, username))
         rows = c.fetchall()
 
     images = []
     for row in rows:
+        # row[0] 现在是 'username/categoryname/unique_filename.ext'
+        # 所以我们需要将其与基础的 UPLOAD_FOLDER 组合，才能形成正确的 URL
+        image_relative_path = row[0] # 这是数据库中存储的 filepath
+        
         images.append({
-            'url': f'/uploads/{row[0]}',  # row[0] 是数据库中的 filepath (纯文件名)
+            'url': f'/{UPLOAD_FOLDER}/{image_relative_path}', # <-- 修改这里！
             'filename': row[1],
             'comment': row[2],
-            'filepath': row[0]  # <-- 新增这一行，将纯文件名作为 filepath 字段返回
+            'filepath': image_relative_path # 确保前端仍然有这个纯文件名作为唯一标识
         })
     return jsonify({'success': True, 'images': images})
 
@@ -251,31 +265,27 @@ def update_image():
     if 'user_id' not in session:
         return jsonify({'success': False, 'message': '未登录'})
 
+    username = session.get('username')
     data = request.json
-    filepath = data.get('filepath') # 这里 filepath 实际上是存储在数据库中的文件名
+    filepath_from_frontend = data.get('filepath') # 这是前端传来的，现在是相对路径
+
+    # 在 update_image 中，filepath_from_frontend 应该就是数据库中存储的 filepath
+    # 我们不更改文件名本身在磁盘上的位置，只更新数据库记录的 filename 和 comment
     filename = data.get('filename')
     comment = data.get('comment')
 
-    if not filepath or not filename:
+    if not filepath_from_frontend or not filename:
         return jsonify({'success': False, 'message': '参数缺失'})
 
-    # 检查该文件是否属于当前用户
-    username = session.get('username')
     with sqlite3.connect(DB_NAME) as conn:
         c = conn.cursor()
-        c.execute('SELECT COUNT(*) FROM images WHERE filepath=? AND user=?', (filepath, username))
-        if c.fetchone()[0] == 0:
-            return jsonify({'success': False, 'message': '无权修改此图片'})
-
-        # 在更新文件名之前，需要考虑新文件名是否与用户在该分类下的其他图片冲突
-        # 简化处理：这里假设只更新 comment，不更新 filename。
-        # 如果要允许更新 filename，需要在这里加入与上传图片类似的重命名逻辑，
-        # 并且还要处理旧文件和新文件的物理存储。
-        # 对于当前需求，我们只允许更新 comment。
-        c.execute('UPDATE images SET filename=?, comment=? WHERE filepath=? AND user=?', (filename, comment, filepath, username))
+        # 确保只更新属于当前用户的图片
+        c.execute('UPDATE images SET filename=?, comment=? WHERE filepath=? AND user=?', 
+                  (filename, comment, filepath_from_frontend, username))
         conn.commit()
 
     return jsonify({'success': True, 'message': '更新成功'})
+
 
 @app.route('/delete_image', methods=['POST'])
 def delete_image():
@@ -283,30 +293,50 @@ def delete_image():
         return jsonify({'success': False, 'message': '未登录'})
 
     data = request.json
-    filepath = data.get('filepath') # 这里 filepath 实际上是存储在数据库中的文件名
-    if not filepath:
+    filepath_to_delete_from_db = data.get('filepath') # 这是前端传来的，现在是相对路径
+    if not filepath_to_delete_from_db:
         return jsonify({'success': False, 'message': '参数缺失'})
 
     username = session.get('username')
-    # 删除数据库记录
+    
+    # 1. 从数据库中获取完整的物理路径
+    physical_file_path = None
     with sqlite3.connect(DB_NAME) as conn:
         c = conn.cursor()
-        # 确保只删除属于当前用户的图片
-        c.execute('SELECT filepath FROM images WHERE filepath=? AND user=?', (filepath, username))
+        # 确保只删除属于当前用户的图片，并获取其完整的物理路径
+        c.execute('SELECT filepath FROM images WHERE filepath=? AND user=?', (filepath_to_delete_from_db, username))
         image_record = c.fetchone()
 
         if not image_record:
             return jsonify({'success': False, 'message': '无权删除此图片或图片不存在'})
 
-        c.execute('DELETE FROM images WHERE filepath=? AND user=?', (filepath, username))
+        # 构建完整的物理路径： uploads/filepath_to_delete_from_db
+        physical_file_path = os.path.join(app.config['UPLOAD_FOLDER'], image_record[0])
+        
+        # 2. 删除数据库记录
+        c.execute('DELETE FROM images WHERE filepath=? AND user=?', (filepath_to_delete_from_db, username))
         conn.commit()
 
-        # 删除物理文件
-        file_path_on_disk = os.path.join(app.config['UPLOAD_FOLDER'], filepath)
-        if os.path.exists(file_path_on_disk):
-            os.remove(file_path_on_disk)
+    # 3. 删除物理文件 (在数据库删除后，以防万一数据库删除失败)
+    if physical_file_path and os.path.exists(physical_file_path):
+        try:
+            os.remove(physical_file_path)
+            # 尝试删除空的用户/分类目录 (可选，但推荐)
+            # 获取图片所在的目录
+            image_dir = os.path.dirname(physical_file_path)
+            # 检查目录是否为空，如果为空则删除
+            if not os.listdir(image_dir):
+                os.rmdir(image_dir)
+                # 检查用户目录是否为空，如果为空则删除
+                user_dir = os.path.dirname(image_dir)
+                if user_dir != app.config['UPLOAD_FOLDER'] and not os.listdir(user_dir): # 避免删除基础上传目录
+                    os.rmdir(user_dir)
 
-    return jsonify({'success': True, 'message': '图片已删除'})
+        except OSError as e:
+            # 即使文件删除失败，数据库记录也已删除，可以返回成功
+            return jsonify({'success': True, 'message': f'图片已从数据库删除，但物理文件删除失败: {e}'})
+
+    return jsonify({'success': True, 'message': '图片删除成功'})
 
 if __name__ == '__main__':
     init_db()
