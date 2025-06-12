@@ -21,54 +21,54 @@ h2 {
 
 /* 用户菜单和下拉菜单 */
 .user-menu-container {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
 #user-display-btn {
- background: none;
- border: none;
- padding: 0;
- font-size: 1.5em;
- color: #6065D9;
- cursor: pointer;
- min-width: auto;
- text-align: left;
- outline: none;
- transition: opacity 0.3s ease;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 1.5em;
+    color: #6065D9;
+    cursor: pointer;
+    min-width: auto;
+    text-align: left;
+    outline: none;
+    transition: opacity 0.3s ease;
 }
 
 #user-display-btn:hover {
- opacity: 0.8;
+    opacity: 0.8;
 }
 
 .dropdown-menu {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 120px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-  right: 0;
-  top: 100%;
-  border-radius: 4px;
-  overflow: hidden;
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    right: 0;
+    top: 100%;
+    border-radius: 4px;
+    overflow: hidden;
 }
 
 .dropdown-menu a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  text-align: left;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
 }
 
 .dropdown-menu a:hover {
-  background-color: #f1f1f1;
+    background-color: #f1f1f1;
 }
 
 .user-menu-container:hover .dropdown-menu {
-  display: block;
+    display: block;
 }
 
 /* 分类管理部分 */
@@ -357,6 +357,25 @@ h2 {
     padding-right: 20px;
 }
 
+.gallery-header #current-category-display {
+    font-size: 1.2em;
+    /* 稍微大一点 */
+    color: #6065D9;
+    /* 与标题颜色一致 */
+    font-weight: bold;
+    /* 加粗 */
+    margin-left: 5px;
+    /* 与 "图片展示" 标题的间距 */
+    white-space: nowrap;
+    /* 防止换行 */
+    overflow: hidden;
+    /* 隐藏溢出内容 */
+    text-overflow: ellipsis;
+    /* 显示省略号 */
+    max-width: 150px;
+    /* 控制最大宽度，避免太长 */
+}
+
 .image-search-controls {
     display: flex;
     gap: 10px;
@@ -412,13 +431,13 @@ h2 {
     border: 1px solid #eee;
     border-radius: 8px;
     background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .image-item-wrapper:hover {
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
 .image-item-wrapper img {
@@ -459,7 +478,7 @@ h2 {
     opacity: 0;
     transition: opacity 0.3s ease, bottom 0.3s ease;
     pointer-events: none;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .image-item-wrapper:hover .tooltiptext {

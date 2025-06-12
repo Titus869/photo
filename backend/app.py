@@ -2,12 +2,12 @@ import os
 import re
 import uuid
 import sqlite3
-from flask import Flask, request, jsonify, session, send_from_directory
+from flask import Flask, request, jsonify, session, send_from_directory, current_app
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key_here'  # 必须设置，用于 session 加密
+app.secret_key = 'Alice_Adventures_in_Wonderland'  # 必须设置，用于 session 加密
 CORS(app, supports_credentials=True)  # 支持跨域携带 cookie
 
 DB_NAME = 'mydata.db'
@@ -115,9 +115,15 @@ def logout():
     session.pop('username', None)
     return jsonify({'success': True, 'message': '已登出'})
 
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+@app.route('/uploads/<path:filename>') 
+def serve_uploaded_file(filename):
+
+    file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+    if not os.path.exists(file_path):
+        # 如果文件不存在，返回 404
+        return "文件未找到", 404
+
+    return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename)
 
 @app.route('/add_category', methods=['POST'])
 def add_category():
