@@ -12,25 +12,42 @@
   <section class="container">
     <div style="display: flex; align-items: center; justify-content: space-between;">
       <h1>照片管理系统</h1>
-      <button id="logout-btn" style="padding: 5px 10px; cursor: pointer;">登出</button>
+      <div class="user-menu-container">
+        <button id="user-display-btn" style="padding: 5px 10px; cursor: pointer;"></button>
+        <div class="dropdown-menu">
+          <a href="#" id="friends-list-btn">好友列表</a>
+          <a href="#" id="logout-btn-dropdown">登出</a>
+        </div>
+      </div>
     </div>
 
-    <!-- 分类管理 -->
-    <section class="category-management">
-      <h2>分类管理</h2>
-      <div class="categories-list">
-        <!-- 动态插入分类按钮 -->
-      </div>
-      <input type="text" id="new-category-input" placeholder="输入新分类名" />
-      <button id="add-category-btn">新增分类</button>
-      <div class="delete-category">
-        <select id="deleteCategorySelect">
-          <option value="" disabled selected>选择要删除的分类</option>
-          <!-- 分类选项动态生成 -->
-        </select>
-        <button id="deleteCategoryBtn">删除分类</button>
-      </div>
-    </section>
+<!-- 分类管理 -->
+<section class="category-management">
+  <div class="category-header" style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+    <h2 style="margin: 0;">分类管理</h2>
+    <div style="display: flex; align-items: center; gap: 6px;">
+      <input type="text" id="search-category-input" placeholder="搜索分类" style="padding: 4px 8px; font-size: 14px;" />
+      <button id="search-category-btn">搜索</button>
+      <button id="reset-category-btn">重置</button>
+    </div>
+  </div>
+
+  <div class="categories-list">
+    <!-- 动态插入分类按钮 -->
+  </div>
+
+  <input type="text" id="new-category-input" placeholder="输入新分类名" />
+  <button id="add-category-btn">新增分类</button>      
+
+  <div class="delete-category">
+    <select id="deleteCategorySelect">
+      <option value="" disabled selected>选择要删除的分类</option>
+      <!-- 分类选项动态生成 -->
+    </select>
+    <button id="deleteCategoryBtn">删除分类</button>
+  </div>
+</section>
+
 
 
 

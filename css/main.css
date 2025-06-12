@@ -32,12 +32,38 @@ h2 {
 
 .categories-list button {
     margin: 5px 5px 5px 0;
-    padding: 5px 10px;
+    width: 120px; /* 稍微增加宽度，以容纳更大的字体，你可以根据实际效果调整 */
+    height: 40px; /* 稍微增加高度，以容纳更大的字体，你可以根据实际效果调整 */
     background: #6065D9;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px; /* 增加圆角，更柔和 */
     color: white;
     cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: background 0.3s ease, transform 0.2s ease; /* 添加transform过渡效果 */
+
+    /* 字体美化 */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 更现代的字体栈 */
+    font-size: 1.1em; /* 增大字体大小 */
+    font-weight: 600; /* 加粗字体 */
+    letter-spacing: 0.5px; /* 增加一点字间距 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影，增加立体感 */
+}
+
+.categories-list button:hover {
+    background: #4a4fc2; /* 鼠标悬停时的颜色变深 */
+    transform: translateY(-2px); /* 鼠标悬停时稍微上浮，增加交互感 */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* 悬停时阴影加深 */
+}
+
+.categories-list button:active {
+    transform: translateY(0); /* 鼠标点击时恢复原位 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08); /* 点击时阴影减弱 */
 }
 
 #image-gallery {
@@ -66,6 +92,16 @@ h2 {
     cursor: pointer;
 }
 
+/* 图片名称的段落 */
+.image-item p {
+    white-space: nowrap; /* 防止文本换行 */
+    overflow: hidden; /* 隐藏超出容器的内容 */
+    text-overflow: ellipsis; /* 超出部分显示省略号 */
+    max-width: 120px; /* 根据图片宽度设置一个最大宽度，例如和图片宽度相同 */
+    margin: 5px auto 0; /* 调整外边距，居中显示 */
+    font-size: 0.9em; /* 调整字体大小 */
+}
+
 #edit-panel {
     margin-top: 20px;
     padding: 20px;
@@ -89,4 +125,57 @@ h2 {
 .edit-options textarea {
     width: 100%;
     height: 60px;
+}
+
+/* 新增的样式 */
+.user-menu-container {
+  position: relative; /* 使得下拉菜单可以相对于它定位 */
+  display: inline-block;
+}
+
+#user-display-btn {
+ background: none; /* 移除背景色 */
+ border: none; /* 移除边框 */
+ padding: 0; /* 移除内边距，后续可能需要调整 */
+ font-size: 1.5em; /* 设置与 h1 相似的字体大小 */
+ color: #6065D9; /* 设置与 h1 相似的颜色 */
+ cursor: pointer;
+ min-width: auto; /* 根据内容自动调整宽度 */
+ text-align: left; /* 调整文字对齐，如果需要 */
+ outline: none; /* 移除 focus 时的默认轮廓 */
+ transition: opacity 0.3s ease; /* 添加一个简单的透明度过渡效果 */
+}
+
+#user-display-btn:hover {
+ opacity: 0.8; /* 鼠标悬停时稍微减弱透明度，作为视觉反馈 */
+}
+
+.dropdown-menu {
+  display: none; /* 默认隐藏 */
+  position: absolute; /* 绝对定位，相对于 user-menu-container */
+  background-color: #f9f9f9;
+  min-width: 120px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1; /* 确保在其他内容之上 */
+  right: 0; /* 让下拉菜单靠右对齐按钮 */
+  top: 100%; /* 出现在按钮的下方 */
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.dropdown-menu a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f1f1f1;
+}
+
+/* 当 user-menu-container 悬停时，显示下拉菜单 */
+.user-menu-container:hover .dropdown-menu {
+  display: block;
 }
