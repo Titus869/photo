@@ -1,3 +1,4 @@
+/* 通用样式 */
 body {
     font-family: Arial, sans-serif;
     background: #f0f2f8;
@@ -6,286 +7,50 @@ body {
     color: #333;
 }
 
-/* body::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('/fonts/2.png'); 替换为你的图片路径 */
-    /* /* background-size: cover;
-    background-repeat: no-repeat; */
-    /* opacity: 0.5;  */
-    /* 设置背景图片的透明度为 50% */
-    /* z-index: -1;  */
-/* } */
-
+/* 容器样式 */
 .container {
     max-width: 900px;
     margin: 0 auto;
 }
 
+/* 标题样式 */
 h1,
 h2 {
     color: #6065D9;
 }
 
-.category-management,
-.upload-section,
-.gallery {
-    background: white;
-    padding: 20px;
-    margin-bottom: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(96, 101, 217, 0.2);
-}
-
-.categories-list {
-    margin-bottom: 15px;
-}
-
-.categories-list button {
-    margin: 5px 5px 5px 0;
-    width: 120px; /* 稍微增加宽度，以容纳更大的字体，你可以根据实际效果调整 */
-    height: 40px; /* 稍微增加高度，以容纳更大的字体，你可以根据实际效果调整 */
-    background: #6065D9;
-    border: none;
-    border-radius: 8px; /* 增加圆角，更柔和 */
-    color: white;
-    cursor: pointer;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    transition: background 0.3s ease, transform 0.2s ease; /* 添加transform过渡效果 */
-
-    /* 字体美化 */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 更现代的字体栈 */
-    font-size: 1.1em; /* 增大字体大小 */
-    font-weight: 600; /* 加粗字体 */
-    letter-spacing: 0.5px; /* 增加一点字间距 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影，增加立体感 */
-}
-
-.categories-list button:hover {
-    background: #4a4fc2; /* 鼠标悬停时的颜色变深 */
-    transform: translateY(-2px); /* 鼠标悬停时稍微上浮，增加交互感 */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* 悬停时阴影加深 */
-}
-
-.categories-list button:active {
-    transform: translateY(0); /* 鼠标点击时恢复原位 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08); /* 点击时阴影减弱 */
-}
-
-#image-gallery {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px; /* 图片项之间的间距 */
-    justify-content: flex-start; /* 从左侧开始排列 */
-}
-
-#image-gallery img {
-    max-width: 150px;
-    max-height: 150px;
-    border-radius: 8px;
-    object-fit: cover;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.image-item {
-    text-align: center;
-}
-
-.image-item img {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-/* 图片名称的段落 */
-.image-item p {
-    white-space: nowrap; /* 防止文本换行 */
-    overflow: hidden; /* 隐藏超出容器的内容 */
-    text-overflow: ellipsis; /* 超出部分显示省略号 */
-    max-width: 120px; /* 根据图片宽度设置一个最大宽度，例如和图片宽度相同 */
-    margin: 5px auto 0; /* 调整外边距，居中显示 */
-    font-size: 0.9em; /* 调整字体大小 */
-}
-
-#edit-panel {
-    position: fixed; /* 固定定位，使其不随滚动条移动 */
-    top: 50%; /* 垂直居中 */
-    left: 50%; /* 水平居中 */
-    transform: translate(-50%, -50%); /* 精确居中 */
-    width: 90%; /* 宽度，可以根据需要调整 */
-    max-width: 600px; /* 最大宽度，防止过宽 */
-    background: rgba(255, 255, 255, 0.95); /* 半透明白色背景 */
-    padding: 25px;
-    border-radius: 12px; /* 更大的圆角 */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* 柔和的阴影 */
-    z-index: 1000; /* 确保在所有内容之上 */
-    display: flex; /* 使用 flex 布局 */
-    flex-direction: column; /* 垂直排列子项 */
-    align-items: center; /* 水平居中对齐 */
-    gap: 20px; /* 内部元素间距 */
-    border: 1px solid #eee; /* 轻微边框 */
-}
-
-#edit-image {
-    max-width: 100%;
-    height: auto;
-    max-height: 300px; /* 限制最大高度 */
-    object-fit: contain; /* 确保图片完整显示 */
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* 编辑选项容器 */
-.edit-options {
-    display: flex;
-    flex-direction: column; /* 垂直排列 */
-    gap: 15px; /* 选项之间的间距 */
-    width: 100%; /* 占据父容器的全部宽度 */
-    align-items: flex-start; /* 左对齐 */
-}
-
-.edit-options label {
-    display: flex; /* 让 label 和 input 在一行 */
-    align-items: center;
-    width: 100%;
-    font-size: 15px;
-    color: #333;
-    gap: 10px; /* 文本和输入框之间的间距 */
-}
-
-/* 文件名和备注输入框样式 */
-#edit-filename,
-#edit-comment {
-    flex-grow: 1; /* 让输入框尽可能占据剩余空间 */
-    padding: 10px 12px; /* 增加内边距 */
-    font-size: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-    transition: border-color 0.2s ease-in-out;
-}
-
-#edit-filename:focus,
-#edit-comment:focus {
-    border-color: #6065D9;
-}
-
-/* 按钮组容器 */
-.edit-actions {
-    display: flex;
-    justify-content: center; /* 按钮组水平居中 */
-    gap: 15px; /* 按钮之间的间距 */
-    width: 100%;
-    margin-top: 15px; /* 与输入框的间距 */
-}
-
-/* 按钮通用样式 */
-.edit-actions button {
-    padding: 10px 20px; /* 增加内边距 */
-    font-size: 15px;
-    border: none;
-    border-radius: 8px; /* 更大的圆角 */
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out, transform 0.1s ease-out;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 按钮阴影 */
-}
-
-.edit-actions button:hover {
-    transform: translateY(-2px); /* 悬停时稍微上浮 */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* 保存更改按钮 (主题色) */
-#save-changes-btn {
-    background: #6065D9;
-    color: white;
-}
-
-#save-changes-btn:hover {
-    background-color: #4a4fb0;
-}
-
-/* 删除图片按钮 (红色) */
-#delete-image-btn {
-    background: #dc3545; /* 红色 */
-    color: white;
-}
-
-#delete-image-btn:hover {
-    background-color: #c82333; /* 悬停时变深红色 */
-}
-
-/* 关闭按钮 (中性色) */
-#close-editor-btn {
-    background: #6c757d; /* 灰色 */
-    color: white;
-}
-
-#close-editor-btn:hover {
-    background-color: #5a6268; /* 悬停时变深灰色 */
-}
-
-/* 遮罩层 (可选，但推荐，点击遮罩关闭面板) */
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* 半透明黑色 */
-    z-index: 999; /* 在面板之下，内容之上 */
-    display: none; /* 默认隐藏 */
-}
-
-.edit-options textarea {
-    width: 100%;
-    height: 60px;
-}
-
-/* 新增的样式 */
+/* 用户菜单和下拉菜单 */
 .user-menu-container {
-  position: relative; /* 使得下拉菜单可以相对于它定位 */
+  position: relative;
   display: inline-block;
 }
 
 #user-display-btn {
- background: none; /* 移除背景色 */
- border: none; /* 移除边框 */
- padding: 0; /* 移除内边距，后续可能需要调整 */
- font-size: 1.5em; /* 设置与 h1 相似的字体大小 */
- color: #6065D9; /* 设置与 h1 相似的颜色 */
+ background: none;
+ border: none;
+ padding: 0;
+ font-size: 1.5em;
+ color: #6065D9;
  cursor: pointer;
- min-width: auto; /* 根据内容自动调整宽度 */
- text-align: left; /* 调整文字对齐，如果需要 */
- outline: none; /* 移除 focus 时的默认轮廓 */
- transition: opacity 0.3s ease; /* 添加一个简单的透明度过渡效果 */
+ min-width: auto;
+ text-align: left;
+ outline: none;
+ transition: opacity 0.3s ease;
 }
 
 #user-display-btn:hover {
- opacity: 0.8; /* 鼠标悬停时稍微减弱透明度，作为视觉反馈 */
+ opacity: 0.8;
 }
 
 .dropdown-menu {
-  display: none; /* 默认隐藏 */
-  position: absolute; /* 绝对定位，相对于 user-menu-container */
+  display: none;
+  position: absolute;
   background-color: #f9f9f9;
   min-width: 120px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1; /* 确保在其他内容之上 */
-  right: 0; /* 让下拉菜单靠右对齐按钮 */
-  top: 100%; /* 出现在按钮的下方 */
+  z-index: 1;
+  right: 0;
+  top: 100%;
   border-radius: 4px;
   overflow: hidden;
 }
@@ -302,194 +67,98 @@ h2 {
   background-color: #f1f1f1;
 }
 
-/* 当 user-menu-container 悬停时，显示下拉菜单 */
 .user-menu-container:hover .dropdown-menu {
   display: block;
 }
 
-.gallery-header {
+/* 分类管理部分 */
+.category-management {
+    background: white;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(96, 101, 217, 0.2);
+}
+
+.category-header {
+    margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 10px;
-    margin-bottom: 20px; /* 与下方图片画廊的间距 */
 }
 
-.gallery-header h2 {
-    margin: 0;
-    padding-right: 20px;
-}
-
-.image-search-controls {
-    display: flex;
-    gap: 10px; /* 搜索框和按钮之间的间距 */
-    align-items: center;
-}
-
-.image-search-controls input {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1em; /* 与其他输入框保持一致 */
-    flex-grow: 1;
-    min-width: 150px;
-}
-
-/* .image-search-controls button {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    background-color: #6065D9;
-    color: white;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background 0.3s ease;
-} */
-
-.image-search-controls button:hover {
-    background-color: #4a4fc2;
-}
-
-/* 暂无图片提示文本的样式 */
-#image-gallery p {
-    text-align: center;
-    color: #555;
-    font-size: 1.1em;
-    margin-top: 30px;
-    width: 100%; /* 确保文本居中在整个画廊区域 */
-}
-
-
-/* 新增的图片项包装器样式 */
-.image-item-wrapper {
-    position: relative; /* 相对定位，用于 tooltip 的绝对定位 */
-    display: flex; /* 使用 flexbox 布局图片和文本 */
-    flex-direction: column; /* 垂直排列图片和文本 */
-    align-items: center; /* 水平居中图片和文本 */
-    margin: 0; /* 清除默认 margin，由 #image-gallery 的 gap 控制 */
-    text-align: center; /* 文本居中 */
-    cursor: pointer;
-    width: 150px; /* 固定每个图片项的宽度 */
-    box-sizing: border-box; /* 包含 padding 和 border 在宽度内 */
-    padding: 5px; /* 增加一点内边距 */
-    border: 1px solid #eee; /* 轻微边框 */
-    border-radius: 8px; /* 圆角 */
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.08); /* 增加轻微阴影 */
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
-
-.image-item-wrapper:hover {
-    transform: translateY(-3px); /* 悬停时稍微上浮 */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15); /* 悬停时阴影更明显 */
-}
-
-.image-item-wrapper img {
-    width: 140px; /* 略小于 wrapper 宽度，留出内边距 */
-    height: 140px; /* 保持正方形 */
-    object-fit: cover;
-    border-radius: 4px; /* 图片自身也带圆角 */
-    /* 移除之前可能存在的内联 style */
-}
-
-.image-item-wrapper p {
-    font-size: 0.9em;
-    color: #333;
-    margin-top: 8px; /* 图片和文本之间的间距 */
-    margin-bottom: 0; /* 移除默认底边距 */
-    max-width: 100%; /* 确保文本宽度不超过容器 */
-    white-space: nowrap; /* 文本不换行 */
-    overflow: hidden; /* 隐藏超出容器的文本 */
-    text-overflow: ellipsis; /* 显示省略号 */
-    padding: 0 2px; /* 文本左右留一点内边距 */
-}
-
-/* Tooltip 样式 */
-.tooltiptext {
-    visibility: hidden; /* 默认隐藏 */
-    width: auto; /* 宽度自适应内容 */
-    min-width: 100px; /* 最小宽度 */
-    background-color: rgba(0, 0, 0, 0.85); /* 半透明黑色背景，更深一点 */
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 6px 10px; /* 调整内边距 */
-    position: absolute;
-    z-index: 100; /* 确保在最顶层 */
-    bottom: calc(100% + 8px); /* 放置在 wrapper 上方，并留有间距 */
-    left: 50%;
-    transform: translateX(-50%); /* 水平居中 */
-    white-space: nowrap; /* 确保 tooltip 文本不换行 */
-    opacity: 0;
-    transition: opacity 0.3s ease, bottom 0.3s ease; /* 添加 bottom 的过渡，使其有上浮效果 */
-    pointer-events: none; /* 允许点击穿透 tooltip */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3); /* 增加 tooltip 阴影 */
-}
-
-/* 当鼠标悬停在 .image-item-wrapper 上时显示 tooltip */
-.image-item-wrapper:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-    bottom: calc(100% + 15px); /* 悬停时 tooltip 稍微上浮 */
-}
-
-/* 暂无图片提示文本的样式 */
-#image-gallery p.no-images-message { /* 针对无图片时的提示文本 */
-    text-align: center;
-    color: #555;
-    font-size: 1.1em;
-    margin-top: 30px;
-    width: 100%;
-}
-
-.image-search-controls input[type="text"],
-.category-search-controls input[type="text"] {
-    padding: 8px 12px; /* 增加内边距 */
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px; /* 轻微圆角 */
-    outline: none; /* 移除聚焦时的外边框 */
-    transition: border-color 0.2s ease-in-out; /* 添加过渡效果 */
-}
-
-.image-search-controls input[type="text"]:focus,
-.category-search-controls input[type="text"]:focus {
-    border-color: #6065D9; /* 聚焦时边框颜色变化 */
-}
-
-/* 搜索和重置按钮的通用样式 */
-.image-search-controls button,
-.category-search-controls button {
-    padding: 8px 15px; /* 增加内边距 */
-    font-size: 14px;
-    background: #6065D9; /* 使用你的主题色 */
-    color: white;
-    border: none;
-    border-radius: 5px; /* 轻微圆角 */
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out; /* 添加过渡效果 */
-}
-
-.image-search-controls button:hover,
-.category-search-controls button:hover {
-    background-color: #4a4fb0; /* 悬停时颜色变深 */
-}
-
-/* 确保搜索控件 div 的间距一致 */
-.image-search-controls,
 .category-search-controls {
     display: flex;
     align-items: center;
-    gap: 8px; /* 搜索框和按钮之间的间距 */
+    gap: 8px;
 }
 
-/* 可以根据需要调整整体布局 */
-.gallery-header {
-    margin-bottom: 20px; /* 确保标题和搜索控件与图片画廊有适当间距 */
+.category-search-controls input[type="text"] {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.2s ease-in-out;
 }
 
-.category-header {
-    margin-bottom: 20px; /* 确保标题和搜索控件与分类列表有适当间距 */
+.category-search-controls input[type="text"]:focus {
+    border-color: #6065D9;
+}
+
+.category-search-controls button {
+    padding: 8px 15px;
+    font-size: 14px;
+    background: #6065D9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.category-search-controls button:hover {
+    background-color: #4a4fb0;
+}
+
+.categories-list {
+    margin-bottom: 0;
+    padding-bottom: 15px;
+}
+
+.categories-list button {
+    margin: 5px;
+    width: 120px;
+    height: 40px;
+    background: #6065D9;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: background 0.3s ease, transform 0.2s ease;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.1em;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.categories-list button:hover {
+    background: #4a4fc2;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.categories-list button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 #new-category-input {
@@ -499,112 +168,94 @@ h2 {
     border-radius: 5px;
     outline: none;
     transition: border-color 0.2s ease-in-out;
-    width: 200px; /* 可以根据需要调整宽度 */
-    margin-right: 10px; /* 与新增按钮的间距 */
+    width: 200px;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 #new-category-input:focus {
     border-color: #6065D9;
 }
 
-
-/* 新增分类按钮样式 (绿色) */
 #add-category-btn {
     padding: 8px 15px;
     font-size: 14px;
-    background: #28a745; /* 绿色 */
+    background: #28a745;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
+    margin-bottom: 10px;
 }
 
 #add-category-btn:hover {
-    background-color: #218838; /* 悬停时变深绿色 */
+    background-color: #218838;
 }
 
-/* 删除分类选择框样式 */
+.delete-category {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 #deleteCategorySelect {
     padding: 8px 12px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 5px;
     outline: none;
-    background-color: white; /* 确保背景色为白色 */
-    margin-right: 10px; /* 与删除按钮的间距 */
-    /* 增加一个外观重置，使其在不同浏览器中显示更一致 */
+    background-color: white;
+    margin-right: 10px;
+    /* 移除默认箭头 */
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+    /* 添加自定义箭头 */
     background: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%23666" d="M7 10l5 5 5-5z"/></svg>') no-repeat right 10px center;
     background-size: 12px;
-    padding-right: 30px; /* 为箭头留出空间 */
+    padding-right: 30px;
+    margin-bottom: 10px;
 }
 
 #deleteCategorySelect:focus {
     border-color: #6065D9;
 }
 
-/* 删除分类按钮样式 (红色) */
 #deleteCategoryBtn {
     padding: 8px 15px;
     font-size: 14px;
-    background: #dc3545; /* 红色 */
+    background: #dc3545;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
+    margin-bottom: 10px;
 }
 
 #deleteCategoryBtn:hover {
-    background-color: #c82333; /* 悬停时变深红色 */
+    background-color: #c82333;
 }
 
-/* 调整删除分类部分的布局 */
-.delete-category {
-    margin-top: 15px; /* 与上方新增分类的间距 */
-    display: flex;
-    align-items: center;
-    gap: 10px; /* 选择框和按钮之间的间距 */
+/* 上传图片部分 */
+.upload-section {
+    background: white;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(96, 101, 217, 0.2);
 }
 
-/* 确保 category-management 内部的元素有适当的垂直间距 */
-.category-management input[type="text"],
-.category-management button,
-.category-management select {
-    margin-bottom: 10px; /* 为所有控制元素添加底部间距，可以根据实际效果调整 */
-}
-
-.category-management .category-header {
-    margin-bottom: 20px; /* 标题和搜索控件与分类列表的间距 */
-}
-
-/* 移除分类列表的底部间距，如果它会导致多余空间 */
-.categories-list {
-    margin-bottom: 0;
-    padding-bottom: 15px; /* 确保分类按钮下方有一定空间 */
-}
-
-/* 调整分类按钮的间距，确保它们不会太挤 */
-.categories-list button {
-    margin: 5px; /* 四周都有5px的间距 */
-    /* 其他现有样式保持不变 */
-}
-
-/* ... (保留现有样式) ... */
-
-/* 上传图片部分容器的布局 */
 .upload-controls {
     display: flex;
-    flex-wrap: wrap; /* 允许元素换行 */
+    flex-wrap: wrap;
     align-items: center;
-    gap: 15px; /* 控制元素之间的间距 */
-    margin-top: 15px; /* 与 "上传图片" 标题的间距 */
+    gap: 15px;
+    margin-top: 15px;
 }
 
-/* 选择分类的样式 */
 #category-select {
     padding: 8px 12px;
     font-size: 14px;
@@ -612,15 +263,16 @@ h2 {
     border-radius: 5px;
     outline: none;
     background-color: white;
-    /* 移除默认箭头并添加自定义箭头 */
+    /* 移除默认箭头 */
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+    /* 添加自定义箭头 */
     background: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%23666" d="M7 10l5 5 5-5z"/></svg>') no-repeat right 10px center;
     background-size: 12px;
-    padding-right: 30px; /* 为箭头留出空间 */
+    padding-right: 30px;
     transition: border-color 0.2s ease-in-out;
-    min-width: 150px; /* 最小宽度 */
+    min-width: 150px;
 }
 
 #category-select:focus {
@@ -632,12 +284,20 @@ h2 {
     display: none;
 }
 
+.file-upload-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 5px;
+    padding: 5px;
+}
+
 /* 自定义文件上传按钮样式 */
 .custom-file-upload {
-    display: inline-block; /* 或 block，根据布局需要 */
+    display: inline-block;
     padding: 8px 15px;
     font-size: 14px;
-    background: #4a4fb0; /* 一个稍深的主题色，区分于主上传按钮 */
+    background: #4a4fb0;
     color: white;
     border: none;
     border-radius: 5px;
@@ -646,38 +306,24 @@ h2 {
 }
 
 .custom-file-upload:hover {
-    background-color: #373b88; /* 悬停时颜色变深 */
+    background-color: #373b88;
 }
 
 /* 文件名显示区域样式 */
 #file-name-display {
     font-size: 14px;
     color: #555;
-    margin-left: 10px; /* 与自定义按钮的间距 */
-    white-space: nowrap; /* 不换行 */
-    overflow: hidden; /* 隐藏溢出内容 */
-    text-overflow: ellipsis; /* 显示省略号 */
-    max-width: 180px; /* 限制显示文件名宽度 */
+    margin-left: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
 }
 
-/* 文件上传区域的整体样式，确保其内部元素水平对齐 */
-.file-upload-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* 自定义按钮和文件名之间的间距 */
-    /* background: #f9f9f9;  可以添加一个浅色背景 */
-    /* border: 1px solid #ddd; */
-    border-radius: 5px;
-    padding: 5px;
-    /* width: fit-content; */
-}
-
-
-/* 上传按钮样式 */
 #upload-btn {
     padding: 8px 15px;
     font-size: 14px;
-    background: #6065D9; /* 使用你的主题色 */
+    background: #6065D9;
     color: white;
     border: none;
     border-radius: 5px;
@@ -686,5 +332,273 @@ h2 {
 }
 
 #upload-btn:hover {
-    background-color: #4a4fb0; /* 悬停时颜色变深 */
+    background-color: #4a4fb0;
+}
+
+/* 图片展示部分 */
+.gallery {
+    background: white;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(96, 101, 217, 0.2);
+}
+
+.gallery-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.gallery-header h2 {
+    margin: 0;
+    padding-right: 20px;
+}
+
+.image-search-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.image-search-controls input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    flex-grow: 1;
+    min-width: 150px;
+}
+
+.image-search-controls input[type="text"]:focus {
+    border-color: #6065D9;
+}
+
+.image-search-controls button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #6065D9;
+    color: white;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background 0.3s ease;
+}
+
+.image-search-controls button:hover {
+    background-color: #4a4fc2;
+}
+
+#image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: flex-start;
+}
+
+.image-item-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    text-align: center;
+    cursor: pointer;
+    width: 150px;
+    box-sizing: border-box;
+    padding: 5px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.image-item-wrapper:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.image-item-wrapper img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.image-item-wrapper p {
+    font-size: 0.9em;
+    color: #333;
+    margin-top: 8px;
+    margin-bottom: 0;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 2px;
+}
+
+/* 图片文件名的提示框 */
+.tooltiptext {
+    visibility: hidden;
+    width: auto;
+    min-width: 100px;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 6px 10px;
+    position: absolute;
+    z-index: 100;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease, bottom 0.3s ease;
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.image-item-wrapper:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+    bottom: calc(100% + 15px);
+}
+
+/* 没有图片时的消息 */
+#image-gallery p {
+    text-align: center;
+    color: #555;
+    font-size: 1.1em;
+    margin-top: 30px;
+    width: 100%;
+}
+
+
+/* 编辑面板 */
+#edit-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 600px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid #eee;
+}
+
+#edit-image {
+    max-width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: contain;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.edit-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    align-items: flex-start;
+}
+
+.edit-options label {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    font-size: 15px;
+    color: #333;
+    gap: 10px;
+}
+
+#edit-filename,
+#edit-comment {
+    flex-grow: 1;
+    padding: 10px 12px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.2s ease-in-out;
+}
+
+#edit-filename:focus,
+#edit-comment:focus {
+    border-color: #6065D9;
+}
+
+.edit-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.edit-actions button {
+    padding: 10px 20px;
+    font-size: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.edit-actions button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#save-changes-btn {
+    background: #6065D9;
+    color: white;
+}
+
+#save-changes-btn:hover {
+    background-color: #4a4fb0;
+}
+
+#delete-image-btn {
+    background: #dc3545;
+    color: white;
+}
+
+#delete-image-btn:hover {
+    background-color: #c82333;
+}
+
+#close-editor-btn {
+    background: #6c757d;
+    color: white;
+}
+
+#close-editor-btn:hover {
+    background-color: #5a6268;
+}
+
+/* 遮罩层 */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
 }

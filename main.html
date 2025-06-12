@@ -22,7 +22,7 @@
     </div>
 
     <!-- 分类管理 -->
-<section class="category-management">
+    <section class="category-management">
       <div class="category-header"
         style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
         <h2 style="margin: 0;">分类管理</h2>
@@ -32,27 +32,28 @@
         </div>
       </div>
       <div class="categories-list">
-        </div>
+      </div>
       <input type="text" id="new-category-input" placeholder="输入新分类名" />
       <button id="add-category-btn">新增分类</button>
       <div class="delete-category">
         <select id="deleteCategorySelect">
           <option value="" disabled selected>选择要删除的分类</option>
-          </select>
+        </select>
         <button id="deleteCategoryBtn">删除分类</button>
       </div>
     </section>
 
-<section class="upload-section">
+    <section class="upload-section">
       <h2>上传图片</h2>
 
       <div class="upload-controls"> <select id="category-select">
           <option value="" disabled selected>选择分类</option>
-          </select>
+        </select>
 
         <div class="file-upload-wrapper"> <input type="file" id="image-upload" accept="image/*" />
           <label for="image-upload" class="custom-file-upload">选择图片文件</label>
-          <span id="file-name-display">未选择文件</span> </div>
+          <span id="file-name-display">未选择文件</span>
+        </div>
 
         <button id="upload-btn" type="button">上传图片</button>
       </div>
@@ -69,7 +70,7 @@
         </div>
       </div>
       <div id="image-gallery">
-        </div>
+      </div>
       <div id="edit-panel" style="display: none;">
         <img id="edit-image" src="" alt="预览图片" />
         <div class="edit-options">

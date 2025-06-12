@@ -1,4 +1,5 @@
 import os
+import re
 import uuid
 import sqlite3
 from flask import Flask, request, jsonify, session, send_from_directory
@@ -68,12 +69,22 @@ def register():
     if not username or not password:
         return jsonify({'success': False, 'message': '用户名或密码不能为空'})
 
+    # 密码长度检查
+    if len(password) < 6:
+        return jsonify({'success': False, 'message': '密码不能少于6位'})
+
+    # 密码包含字母和数字的检查
+    if not (re.search(r'[a-zA-Z]', password) and re.search(r'[0-9]', password)):
+        return jsonify({'success': False, 'message': '密码必须同时包含字母和数字'})
+
     with sqlite3.connect(DB_NAME) as conn:
         c = conn.cursor()
         c.execute('SELECT * FROM users WHERE username = ?', (username,))
         if c.fetchone():
             return jsonify({'success': False, 'message': '用户已存在'})
 
+        # 在实际应用中，这里应该对密码进行哈希处理，而不是直接存储明文密码
+        # 例如：hashed_password = generate_password_hash(password)
         c.execute('INSERT INTO users (username, password) VALUES (?, ?)', (username, password))
         conn.commit()
     return jsonify({'success': True, 'message': '注册成功'})
